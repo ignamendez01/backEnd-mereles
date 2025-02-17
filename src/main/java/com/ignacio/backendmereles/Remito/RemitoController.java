@@ -27,19 +27,13 @@ public class RemitoController {
 
     @PostMapping("/generar")
     public ResponseEntity<Remito> generarRemito(@RequestBody Remito remito) {
-        // Llamamos al servicio para crear el remito con sus coladas asociadas
         Remito nuevoRemito = remitoService.crearRemito(remito);
-
-        // Respondemos con el remito recién creado
         return ResponseEntity.ok(nuevoRemito);
     }
 
     @PostMapping("/enviar")
     public ResponseEntity<Remito> enviarRemito(@RequestBody Remito remito) {
-        // Llamamos al servicio para crear el remito con sus coladas asociadas
         Remito nuevoRemito = remitoService.enviarRemito(remito);
-
-        // Respondemos con el remito recién creado
         return ResponseEntity.ok(nuevoRemito);
     }
 

@@ -1,7 +1,7 @@
 package com.ignacio.backendmereles.Remito;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.ignacio.backendmereles.Colada.Colada;
+import com.ignacio.backendmereles.Coladas.ColadaRemito;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,8 +21,8 @@ public class Remito {
     private Long id;
 
     @OneToMany(mappedBy = "remito", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference // Gestiona la relación en el "lado propietario" (Remito)
-    private List<Colada> coladas = new ArrayList<>();
+    @JsonManagedReference
+    private List<ColadaRemito> coladas = new ArrayList<>();
 
     @NotNull
     private Double pesoTotal;
@@ -45,12 +45,12 @@ public class Remito {
         this.id = id;
     }
 
-    public List<Colada> getColadas() {
+    public List<ColadaRemito> getColadas() {
         return coladas;
     }
 
-    public void setColadas(List<Colada> coladas) {
-        this.coladas = coladas;
+    public void setColadas(List<ColadaRemito> coladaRemitos) {
+        this.coladas = coladaRemitos;
     }
 
     public Double getPesoTotal() {

@@ -1,4 +1,4 @@
-package com.ignacio.backendmereles.Colada;
+package com.ignacio.backendmereles.Coladas;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ignacio.backendmereles.Remito.Remito;
@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-public class Colada {
+public class ColadaRemito {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,7 +41,7 @@ public class Colada {
 
     @ManyToOne
     @JoinColumn(name = "remito_id")
-    @JsonBackReference // Evita la referencia circular al serializar (lado "no propietario")
+    @JsonBackReference
     private Remito remito;
 
     // Getters y setters

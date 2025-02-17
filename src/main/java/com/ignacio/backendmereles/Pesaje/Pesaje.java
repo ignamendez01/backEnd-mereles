@@ -1,14 +1,17 @@
 package com.ignacio.backendmereles.Pesaje;
 
-import com.ignacio.backendmereles.Colada.Colada;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ignacio.backendmereles.Coladas.ColadaPesaje;
+import com.ignacio.backendmereles.Coladas.ColadaRemito;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,15 +21,15 @@ public class Pesaje {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
-    @JoinColumn(name = "pesaje_id")
-    private List<Colada> coladas;
+    @OneToMany(mappedBy = "pesaje", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<ColadaPesaje> coladas = new ArrayList<>();
 
     @NotNull
     private Double pesoTotal;
 
     @NotNull
-    private Double tachoId;
+    private Long tachoId;
 
     @NotNull
     private Boolean pesado;
@@ -43,11 +46,11 @@ public class Pesaje {
         this.id = id;
     }
 
-    public List<Colada> getColadas() {
+    public List<ColadaPesaje> getColadas() {
         return coladas;
     }
 
-    public void setColadas(List<Colada> coladas) {
+    public void setColadas(List<ColadaPesaje> coladas) {
         this.coladas = coladas;
     }
 
@@ -59,11 +62,11 @@ public class Pesaje {
         this.pesoTotal = pesoTotal;
     }
 
-    public Double getTachoId() {
+    public Long getTachoId() {
         return tachoId;
     }
 
-    public void setTachoId(Double tachoId) {
+    public void setTachoId(Long tachoId) {
         this.tachoId = tachoId;
     }
 
@@ -81,5 +84,15 @@ public class Pesaje {
 
     public void setEgresado(Boolean egresado) {
         this.egresado = egresado;
+    }
+
+    @Override
+    public String toString() {
+        return "Pesaje{id=" + id +
+                ", coladas=" + coladas +
+                ", peso total=" + pesoTotal +
+                ", tachoId=" + tachoId +
+                ", pesado=" + pesado +
+                ", egresado=" + egresado +"}";
     }
 }

@@ -1,28 +1,28 @@
 package com.ignacio.backendmereles.Remito;
 
-import com.ignacio.backendmereles.Colada.Colada;
+import com.ignacio.backendmereles.Coladas.ColadaRemito;
 
 import java.util.List;
 
 public class RemitoUpdateRequest {
-    private List<Colada> coladas;
+    private List<ColadaRemito> coladas;
     private Long tachoId;
     private Double pesoTotal;
 
     public RemitoUpdateRequest() {}
 
-    public RemitoUpdateRequest(List<Colada> coladas, Long tachoId, Double pesoTotal) {
+    public RemitoUpdateRequest(List<ColadaRemito> coladas, Long tachoId, Double pesoTotal) {
         this.coladas = coladas;
         this.tachoId = tachoId;
         this.pesoTotal = pesoTotal;
     }
 
-    public List<Colada> getColadas() {
+    public List<ColadaRemito> getColadas() {
         return coladas;
     }
 
-    public void setColadas(List<Colada> coladas) {
-        this.coladas = coladas;
+    public void setColadas(List<ColadaRemito> coladaRemitos) {
+        this.coladas = coladaRemitos;
     }
 
     public Long getTachoId() {

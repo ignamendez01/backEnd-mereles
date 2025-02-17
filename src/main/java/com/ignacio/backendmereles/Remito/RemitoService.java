@@ -1,5 +1,5 @@
 package com.ignacio.backendmereles.Remito;
-import com.ignacio.backendmereles.Colada.Colada;
+import com.ignacio.backendmereles.Coladas.ColadaRemito;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,33 +15,29 @@ public class RemitoService {
     }
 
     public Remito crearRemito(Remito remito) {
-        // Si el remito tiene coladas, aseguramos que cada una esté asociada al remito
         if (remito.getColadas() != null) {
-            for (Colada colada : remito.getColadas()) {
-                colada.setRemito(remito);  // Asocia cada colada al remito
+            for (ColadaRemito coladaRemito : remito.getColadas()) {
+                coladaRemito.setRemito(remito);
             }
         }
 
         remito.setActivo(true);
         remito.setEnviado(false);
 
-        // Aquí ya tenemos las coladas asociadas al remito, por lo que solo lo guardamos
-        return remitoRepository.save(remito);  // Guardará también las coladas debido al CascadeType.ALL
+        return remitoRepository.save(remito);
     }
 
     public Remito enviarRemito(Remito remito) {
-        // Si el remito tiene coladas, aseguramos que cada una esté asociada al remito
         if (remito.getColadas() != null) {
-            for (Colada colada : remito.getColadas()) {
-                colada.setRemito(remito);  // Asocia cada colada al remito
+            for (ColadaRemito coladaRemito : remito.getColadas()) {
+                coladaRemito.setRemito(remito);
             }
         }
 
         remito.setActivo(true);
         remito.setEnviado(true);
 
-        // Aquí ya tenemos las coladas asociadas al remito, por lo que solo lo guardamos
-        return remitoRepository.save(remito);  // Guardará también las coladas debido al CascadeType.ALL
+        return remitoRepository.save(remito);
     }
 
     public List<Remito> obtenerRemitosActivos() {
@@ -67,33 +63,33 @@ public class RemitoService {
             remito.setTachoId(remitoUpdateDTO.getTachoId());
             remito.setPesoTotal(remitoUpdateDTO.getPesoTotal());
 
-            List<Colada> coladasActuales = remito.getColadas();
-            List<Colada> coladasNuevas = remitoUpdateDTO.getColadas();
+            List<ColadaRemito> coladasActuales = remito.getColadas();
+            List<ColadaRemito> coladasNuevas = remitoUpdateDTO.getColadas();
 
             coladasActuales.removeIf(coladaExistente ->
                     coladasNuevas.stream().noneMatch(coladaNueva -> coladaNueva.getId().equals(coladaExistente.getId()))
             );
 
-            for (Colada nuevaColada : coladasNuevas) {
+            for (ColadaRemito nuevaColadaRemito : coladasNuevas) {
                 boolean existe = false;
 
-                for (Colada coladaExistente : coladasActuales) {
-                    if (coladaExistente.getId().equals(nuevaColada.getId())) {
-                        coladaExistente.setColada(nuevaColada.getColada());
-                        coladaExistente.setFecha(nuevaColada.getFecha());
-                        coladaExistente.setCantidad(nuevaColada.getCantidad());
-                        coladaExistente.setImagen(nuevaColada.getImagen());
-                        coladaExistente.setPeso(nuevaColada.getPeso());
-                        coladaExistente.setModeloId(nuevaColada.getModeloId());
-                        coladaExistente.setModeloId(nuevaColada.getModeloId());
+                for (ColadaRemito coladaRemitoExistente : coladasActuales) {
+                    if (coladaRemitoExistente.getId().equals(nuevaColadaRemito.getId())) {
+                        coladaRemitoExistente.setColada(nuevaColadaRemito.getColada());
+                        coladaRemitoExistente.setFecha(nuevaColadaRemito.getFecha());
+                        coladaRemitoExistente.setCantidad(nuevaColadaRemito.getCantidad());
+                        coladaRemitoExistente.setImagen(nuevaColadaRemito.getImagen());
+                        coladaRemitoExistente.setPeso(nuevaColadaRemito.getPeso());
+                        coladaRemitoExistente.setModeloId(nuevaColadaRemito.getModeloId());
+                        coladaRemitoExistente.setModeloId(nuevaColadaRemito.getModeloId());
                         existe = true;
                         break;
                     }
                 }
 
                 if (!existe) {
-                    nuevaColada.setRemito(remito);
-                    coladasActuales.add(nuevaColada);
+                    nuevaColadaRemito.setRemito(remito);
+                    coladasActuales.add(nuevaColadaRemito);
                 }
             }
 
