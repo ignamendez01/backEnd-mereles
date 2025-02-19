@@ -8,26 +8,43 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://mereles_db:5432/ignaDB
-      - SPRING_DATASOURCE_USERNAME=igna01
-      - SPRING_DATASOURCE_PASSWORD=igna2001
-    depends_on:
-      - mereles_db
-    volumes:
-      - imagenes:/app/imagenes  # Volumen para almacenar imágenes
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
 
-  mereles_db:
-    container_name: mereles_db
-    image: postgres:latest
-    environment:
-      - POSTGRES_USER=igna01
-      - POSTGRES_PASSWORD=igna2001
-      - POSTGRES_DB=ignaDB
-    ports:
-      - "5432:5432"
-    volumes:
-      - db_data:/var/lib/postgresql/data  # Volumen para persistir los datos de PostgreSQL
-
-volumes:
-  imagenes:  # Volumen para imágenes
-  db_data:   # Volumen para PostgreSQL
+#version: "3.9"
+#
+#services:
+#  spring_app:
+#    container_name: app-mereles
+#    build: .
+#    image: app-mereles:latest
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:postgresql://mereles_db:5432/ignaDB
+#      - SPRING_DATASOURCE_USERNAME=igna01
+#      - SPRING_DATASOURCE_PASSWORD=igna2001
+#      - CLOUDINARY_CLOUD_NAME=dohuynbs9
+#      - CLOUDINARY_API_KEY=746456273845394
+#      - CLOUDINARY_API_SECRET=epFdN41J6e7c4QDK4BfEJuGXK_4
+#    depends_on:
+#      - mereles_db
+#
+#  mereles_db:
+#    container_name: mereles_db
+#    image: postgres:latest
+#    environment:
+#      - POSTGRES_USER=igna01
+#      - POSTGRES_PASSWORD=igna2001
+#      - POSTGRES_DB=ignaDB
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - db_data:/var/lib/postgresql/data  # Volumen para persistir los datos de PostgreSQL
+#
+#volumes:
+#  db_data:   # Volumen para PostgreSQL

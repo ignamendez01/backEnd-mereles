@@ -1,22 +1,21 @@
 package com.ignacio.backendmereles.Tacho;
 
-import com.ignacio.backendmereles.Modelo.Modelo;
-import com.ignacio.backendmereles.Modelo.ModeloRepository;
+import com.ignacio.backendmereles.CloudinaryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class TachoService {
 
     private final TachoRepository tachoRepository;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     public TachoService(TachoRepository tachoRepository) {
         this.tachoRepository = tachoRepository;
@@ -73,27 +72,10 @@ public class TachoService {
     }
 
     private String saveImage(MultipartFile imagen) throws IOException {
-        String folderPath = "/app/imagenes/";
-        String fileName = UUID.randomUUID() + "-" + imagen.getOriginalFilename();
-        Path path = Paths.get(folderPath + fileName);
-
-        Files.createDirectories(path.getParent());
-        Files.write(path, imagen.getBytes());
-
-        String baseUrl = System.getenv("BASE_URL");
-        if (baseUrl == null) {
-            baseUrl = "http://localhost:8080";
-        }
-
-        return baseUrl + "/imagenes/" + fileName;
+        return cloudinaryService.uploadImage(imagen);
     }
 
-    private void deleteImage(String imagePath) {
-        Path path = Paths.get("/app/imagenes/" + imagePath);
-        try {
-            Files.deleteIfExists(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void deleteImage(String imageUrl) {
+        cloudinaryService.deleteImage(imageUrl);
     }
 }
