@@ -80,7 +80,7 @@ public class RemitoService {
                         coladaRemitoExistente.setCantidad(nuevaColadaRemito.getCantidad());
                         coladaRemitoExistente.setImagen(nuevaColadaRemito.getImagen());
                         coladaRemitoExistente.setPeso(nuevaColadaRemito.getPeso());
-                        coladaRemitoExistente.setModeloId(nuevaColadaRemito.getModeloId());
+                        coladaRemitoExistente.setPesoTotal(nuevaColadaRemito.getPesoTotal());
                         coladaRemitoExistente.setModeloId(nuevaColadaRemito.getModeloId());
                         existe = true;
                         break;
