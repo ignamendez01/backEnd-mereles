@@ -44,6 +44,11 @@ public class TachoController {
         return ResponseEntity.ok(tachoService.obtenerTachosActivos());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Tacho> obtenerTacho(@PathVariable Long id) {
+        return ResponseEntity.ok(tachoService.obtenerTacho(id));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Tacho> actualizarTacho(@PathVariable Long id, @RequestParam("descripcion") String descripcion,
                                                    @RequestParam("peso") Double peso, @RequestParam(value = "imagen", required = false) MultipartFile imagen) throws IOException {

@@ -1,6 +1,7 @@
 package com.ignacio.backendmereles.Tacho;
 
 import com.ignacio.backendmereles.CloudinaryService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,5 +78,10 @@ public class TachoService {
 
     private void deleteImage(String imageUrl) {
         cloudinaryService.deleteImage(imageUrl);
+    }
+
+    public Tacho obtenerTacho(Long id) {
+        return tachoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Tacho con ID " + id + " no encontrado"));
     }
 }
