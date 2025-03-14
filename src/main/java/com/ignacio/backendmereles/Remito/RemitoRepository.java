@@ -5,4 +5,5 @@ import java.util.List;
 
 public interface RemitoRepository extends JpaRepository<Remito, Long> {
     List<Remito> findByActivoTrueOrderByIdAsc();
+    List<Remito> findByActivoTrueAndEnviadoFalseOrderByIdAsc();
 }

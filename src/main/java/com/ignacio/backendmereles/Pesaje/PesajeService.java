@@ -65,8 +65,10 @@ public class PesajeService {
                 .orElseThrow(() -> new RuntimeException("Remito no encontrado"));
 
         Pesaje pesaje = new Pesaje();
+        pesaje.setRemitoId(remitoId);
         pesaje.setPesoTotal(remito.getPesoTotal());
         pesaje.setTachoId(remito.getTachoId());
+        pesaje.setTachoPeso(remito.getTachoPeso());
         List<ColadaRemito> remitoColadas = remito.getColadas();
         List<ColadaPesaje> pesajeColadas = new ArrayList<>();
 

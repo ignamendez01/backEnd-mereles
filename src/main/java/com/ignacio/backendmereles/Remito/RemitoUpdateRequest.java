@@ -8,13 +8,15 @@ public class RemitoUpdateRequest {
     private List<ColadaRemito> coladas;
     private Long tachoId;
     private Double pesoTotal;
+    private Double pesoTacho;
 
     public RemitoUpdateRequest() {}
 
-    public RemitoUpdateRequest(List<ColadaRemito> coladas, Long tachoId, Double pesoTotal) {
+    public RemitoUpdateRequest(List<ColadaRemito> coladas, Long tachoId, Double pesoTotal, Double pesoTacho) {
         this.coladas = coladas;
         this.tachoId = tachoId;
         this.pesoTotal = pesoTotal;
+        this.pesoTacho = pesoTacho;
     }
 
     public List<ColadaRemito> getColadas() {
@@ -41,10 +43,19 @@ public class RemitoUpdateRequest {
         this.pesoTotal = pesoTotal;
     }
 
+    public Double getPesoTacho() {
+        return pesoTacho;
+    }
+
+    public void setPesoTacho(Double pesoTacho) {
+        this.pesoTacho = pesoTacho;
+    }
+
     @Override
     public String toString() {
         return "RemitoUpdatedRequest{coladas=" + coladas +
                 ", peso total=" + pesoTotal +
-                ", tachoId=" + tachoId +"}";
+                ", tachoId=" + tachoId +
+                ", pesoTacho=" + pesoTacho +"}";
     }
 }
