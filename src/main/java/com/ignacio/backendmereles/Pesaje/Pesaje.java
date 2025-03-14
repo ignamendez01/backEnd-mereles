@@ -29,7 +29,13 @@ public class Pesaje {
     private Double pesoTotal;
 
     @NotNull
+    private Long remitoId;
+
+    @NotNull
     private Long tachoId;
+
+    @NotNull
+    private Double tachoPeso;
 
     @NotNull
     private Boolean pesado;
@@ -62,12 +68,28 @@ public class Pesaje {
         this.pesoTotal = pesoTotal;
     }
 
+    public Long getRemitoId() {
+        return remitoId;
+    }
+
+    public void setRemitoId(Long remitoId) {
+        this.remitoId = remitoId;
+    }
+
     public Long getTachoId() {
         return tachoId;
     }
 
     public void setTachoId(Long tachoId) {
         this.tachoId = tachoId;
+    }
+
+    public Double getTachoPeso() {
+        return tachoPeso;
+    }
+
+    public void setTachoPeso(Double tachoPeso) {
+        this.tachoPeso = tachoPeso;
     }
 
     public Boolean getPesado() {
@@ -91,7 +113,9 @@ public class Pesaje {
         return "Pesaje{id=" + id +
                 ", coladas=" + coladas +
                 ", peso total=" + pesoTotal +
+                ", remitoId=" + remitoId +
                 ", tachoId=" + tachoId +
+                ", tachoPeso=" + tachoPeso +
                 ", pesado=" + pesado +
                 ", egresado=" + egresado +"}";
     }

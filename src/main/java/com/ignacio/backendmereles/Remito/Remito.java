@@ -31,10 +31,16 @@ public class Remito {
     private Long tachoId;
 
     @NotNull
+    private Double tachoPeso;
+
+    @NotNull
     private Boolean activo;
 
     @NotNull
     private Boolean enviado;
+
+    @NotNull
+    private String estado;
 
     // Getters y setters
     public Long getId() {
@@ -69,6 +75,14 @@ public class Remito {
         this.tachoId = tachoId;
     }
 
+    public Double getTachoPeso() {
+        return tachoPeso;
+    }
+
+    public void setTachoPeso(Double tachoPeso) {
+        this.tachoPeso = tachoPeso;
+    }
+
     public Boolean getActivo() {
         return activo;
     }
@@ -85,13 +99,23 @@ public class Remito {
         this.enviado = enviado;
     }
 
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
     @Override
     public String toString() {
         return "Remito{id=" + id +
                 ", coladas=" + coladas +
                 ", peso total=" + pesoTotal +
                 ", tachoId=" + tachoId +
+                ", tachoPeso=" + tachoPeso +
                 ", activo=" + activo +
-                ", enviado=" + enviado +"}";
+                ", enviado=" + enviado +
+                ", estado=" + estado +"}";
     }
 }
