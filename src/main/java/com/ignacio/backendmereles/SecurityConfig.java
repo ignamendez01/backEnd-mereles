@@ -71,7 +71,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:3000")); // o el dominio real en producción
+        config.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "https://ignamendez01.github.io" // 👈 agregar este dominio
+        ));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         config.setExposedHeaders(List.of("Authorization")); // opcional si querés exponer el token
