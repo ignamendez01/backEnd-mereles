@@ -1,7 +1,6 @@
 package com.ignacio.backendmereles.Remito;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +15,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/remitos")
-@CrossOrigin(origins = "*")
 public class RemitoController {
 
     private final RemitoService remitoService;
@@ -38,12 +36,6 @@ public class RemitoController {
     @PostMapping("/generar")
     public ResponseEntity<Remito> generarRemito(@RequestBody Remito remito) {
         Remito nuevoRemito = remitoService.crearRemito(remito);
-        return ResponseEntity.ok(nuevoRemito);
-    }
-
-    @PostMapping("/enviar")
-    public ResponseEntity<Remito> enviarRemito(@RequestBody Remito remito) {
-        Remito nuevoRemito = remitoService.enviarRemito(remito);
         return ResponseEntity.ok(nuevoRemito);
     }
 

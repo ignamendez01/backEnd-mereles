@@ -21,19 +21,6 @@ public class PesajeService {
         this.remitoRepository = remitoRepository;
     }
 
-    public Pesaje crearPesaje(Pesaje pesaje) {
-        if (pesaje.getColadas() != null) {
-            for (ColadaPesaje colada : pesaje.getColadas()) {
-                colada.setPesaje(pesaje);
-            }
-        }
-
-        pesaje.setPesado(false);
-        pesaje.setEgresado(false);
-
-        return pesajeRepository.save(pesaje);
-    }
-
     public List<Pesaje> obtenerNoPesados() {
         return pesajeRepository.findByPesadoFalse();
     }

@@ -1,7 +1,6 @@
 package com.ignacio.backendmereles.Pesaje;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +14,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/pesajes")
-@CrossOrigin(origins = "*")
 public class PesajeController {
 
     private final PesajeService pesajeService;
@@ -37,12 +35,6 @@ public class PesajeController {
     @GetMapping("/pesados-no-egresados")
     public ResponseEntity<List<Pesaje>> obtenerPesadosNoEgresados() {
         return ResponseEntity.ok(pesajeService.obtenerPesadosNoEgresados());
-    }
-
-    @PostMapping("/crear")
-    public ResponseEntity<Pesaje> crearPesaje(@RequestBody Pesaje pesaje) {
-        Pesaje nuevoPesaje = pesajeService.crearPesaje(pesaje);
-        return ResponseEntity.ok(nuevoPesaje);
     }
 
     @PostMapping("/crearDesdeRemito/{remitoId}")

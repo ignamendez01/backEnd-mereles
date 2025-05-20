@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/modelos")
-@CrossOrigin(origins = "*")
 public class ModeloController {
 
     private final ModeloService modeloService;

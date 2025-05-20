@@ -28,20 +28,6 @@ public class RemitoService {
         return remitoRepository.save(remito);
     }
 
-    public Remito enviarRemito(Remito remito) {
-        if (remito.getColadas() != null) {
-            for (ColadaRemito coladaRemito : remito.getColadas()) {
-                coladaRemito.setRemito(remito);
-            }
-        }
-
-        remito.setActivo(true);
-        remito.setEnviado(true);
-        remito.setEstado("Enviado, sin pesar");
-
-        return remitoRepository.save(remito);
-    }
-
     public List<Remito> obtenerRemitosActivos() {
         return remitoRepository.findByActivoTrueOrderByIdAsc();
     }

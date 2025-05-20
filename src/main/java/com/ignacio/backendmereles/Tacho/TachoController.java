@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/tachos")
-@CrossOrigin(origins = "*")
 public class TachoController {
 
     private final TachoService tachoService;
