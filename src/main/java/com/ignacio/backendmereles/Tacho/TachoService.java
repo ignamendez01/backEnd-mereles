@@ -1,6 +1,6 @@
 package com.ignacio.backendmereles.Tacho;
 
-import com.ignacio.backendmereles.CloudinaryService;
+import com.ignacio.backendmereles.config.CloudinaryService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

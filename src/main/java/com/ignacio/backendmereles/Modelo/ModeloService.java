@@ -1,6 +1,6 @@
 package com.ignacio.backendmereles.Modelo;
 
-import com.ignacio.backendmereles.CloudinaryService;
+import com.ignacio.backendmereles.config.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
