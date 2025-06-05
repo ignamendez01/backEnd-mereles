@@ -20,7 +20,7 @@ public class Tacho {
     private Double peso;
 
     @NotNull
-    private String imagen; // Asumimos que la imagen será una URL o ruta
+    private String imagen;
 
     @NotNull
     private boolean activo;

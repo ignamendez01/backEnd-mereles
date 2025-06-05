@@ -23,6 +23,11 @@ public class RemitoController {
         this.remitoService = remitoService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<Remito>> obtenerRemitos() {
+        return ResponseEntity.ok(remitoService.obtenerTodos());
+    }
+
     @GetMapping("/activos")
     public ResponseEntity<List<Remito>> obtenerRemitosActivos() {
         return ResponseEntity.ok(remitoService.obtenerRemitosActivos());

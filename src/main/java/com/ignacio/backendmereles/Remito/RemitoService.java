@@ -104,4 +104,8 @@ public class RemitoService {
             return remitoRepository.save(remito);
         });
     }
+
+    public List<Remito> obtenerTodos() {
+        return remitoRepository.findAll();
+    }
 }
