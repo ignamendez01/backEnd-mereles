@@ -2,6 +2,7 @@ package com.ignacio.backendmereles.Modelo;
 
 import com.ignacio.backendmereles.config.CloudinaryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,9 +17,15 @@ public class ModeloService {
 
     @Autowired
     private CloudinaryService cloudinaryService;
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     public ModeloService(ModeloRepository modeloRepository) {
         this.modeloRepository = modeloRepository;
+    }
+
+    private void notificarCambioModelos() {
+        messagingTemplate.convertAndSend("/topic/modelos", "actualizar");
     }
 
     public Modelo crearModelo(String descripcion, Double peso, MultipartFile imagen) throws IOException {
@@ -29,7 +36,9 @@ public class ModeloService {
         modelo.setImagen(imagePath);
         modelo.setActivo(true);
 
-        return modeloRepository.save(modelo);
+        Modelo guardado = modeloRepository.save(modelo);
+        notificarCambioModelos();
+        return guardado;
     }
 
     public List<Modelo> obtenerTodosLosModelos() {
@@ -50,23 +59,26 @@ public class ModeloService {
                     deleteImage(modelo.getImagen());
                 }
 
-                String nuevaImagenPath;
                 try {
-                    nuevaImagenPath = saveImage(imagen);
+                    String nuevaImagenPath = saveImage(imagen);
+                    modelo.setImagen(nuevaImagenPath);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-                modelo.setImagen(nuevaImagenPath);
             }
 
-            return modeloRepository.save(modelo);
+            Modelo actualizado = modeloRepository.save(modelo);
+            notificarCambioModelos();
+            return actualizado;
         });
     }
 
     public Optional<Modelo> desactivarModelo(Long id) {
         return modeloRepository.findById(id).map(modelo -> {
             modelo.setActivo(false);
-            return modeloRepository.save(modelo);
+            Modelo desactivado = modeloRepository.save(modelo);
+            notificarCambioModelos();
+            return desactivado;
         });
     }
 

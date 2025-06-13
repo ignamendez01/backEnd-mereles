@@ -1,5 +1,7 @@
 package com.ignacio.backendmereles.Remito;
 import com.ignacio.backendmereles.Coladas.ColadaRemito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +11,19 @@ import java.util.Optional;
 public class RemitoService {
 
     private final RemitoRepository remitoRepository;
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     public RemitoService(RemitoRepository remitoRepository) {
         this.remitoRepository = remitoRepository;
+    }
+
+    private void notificarCambioRemitos() {
+        messagingTemplate.convertAndSend("/topic/remitos", "actualizar");
+    }
+
+    public List<Remito> obtenerTodos() {
+        return remitoRepository.findAll();
     }
 
     public Remito crearRemito(Remito remito) {
@@ -25,7 +37,9 @@ public class RemitoService {
         remito.setEnviado(false);
         remito.setEstado("De alta");
 
-        return remitoRepository.save(remito);
+        Remito guardado = remitoRepository.save(remito);
+        notificarCambioRemitos();
+        return guardado;
     }
 
     public List<Remito> obtenerRemitosActivos() {
@@ -39,7 +53,9 @@ public class RemitoService {
     public Optional<Remito> desactivarRemito(Long id) {
         return remitoRepository.findById(id).map(remito -> {
             remito.setActivo(false);
-            return remitoRepository.save(remito);
+            Remito actualizado = remitoRepository.save(remito);
+            notificarCambioRemitos();
+            return actualizado;
         });
     }
 
@@ -47,21 +63,27 @@ public class RemitoService {
         return remitoRepository.findById(id).map(remito -> {
             remito.setEnviado(true);
             remito.setEstado("Enviado, sin pesar");
-            return remitoRepository.save(remito);
+            Remito actualizado = remitoRepository.save(remito);
+            notificarCambioRemitos();
+            return actualizado;
         });
     }
 
     public Optional<Remito> pesarRemito(Long id) {
         return remitoRepository.findById(id).map(remito -> {
             remito.setEstado("Enviado, pesado");
-            return remitoRepository.save(remito);
+            Remito actualizado = remitoRepository.save(remito);
+            notificarCambioRemitos();
+            return actualizado;
         });
     }
 
     public Optional<Remito> egresarRemito(Long id) {
         return remitoRepository.findById(id).map(remito -> {
             remito.setEstado("Recibido");
-            return remitoRepository.save(remito);
+            Remito actualizado = remitoRepository.save(remito);
+            notificarCambioRemitos();
+            return actualizado;
         });
     }
 
@@ -101,11 +123,9 @@ public class RemitoService {
                 }
             }
 
-            return remitoRepository.save(remito);
+            Remito actualizado = remitoRepository.save(remito);
+            notificarCambioRemitos();
+            return actualizado;
         });
-    }
-
-    public List<Remito> obtenerTodos() {
-        return remitoRepository.findAll();
     }
 }

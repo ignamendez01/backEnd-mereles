@@ -1,8 +1,10 @@
 package com.ignacio.backendmereles.Usuario;
 
 import com.ignacio.backendmereles.security.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +17,17 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     public UsuarioService(UsuarioRepository usuarioRepository, BCryptPasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.usuarioRepository = usuarioRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
+    }
+
+    private void notificarCambioUsuarios() {
+        messagingTemplate.convertAndSend("/topic/usuarios", "actualizar");
     }
 
     public ResponseEntity<?> registrarUsuario(RegistroRequest request) {
@@ -36,7 +44,7 @@ public class UsuarioService {
         );
 
         usuarioRepository.save(nuevo);
-
+        notificarCambioUsuarios();
         return ResponseEntity.ok("Usuario registrado correctamente");
     }
 

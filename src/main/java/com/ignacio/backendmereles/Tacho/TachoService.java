@@ -3,6 +3,7 @@ package com.ignacio.backendmereles.Tacho;
 import com.ignacio.backendmereles.config.CloudinaryService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,9 +18,15 @@ public class TachoService {
 
     @Autowired
     private CloudinaryService cloudinaryService;
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
 
     public TachoService(TachoRepository tachoRepository) {
         this.tachoRepository = tachoRepository;
+    }
+
+    private void notificarCambioTachos() {
+        messagingTemplate.convertAndSend("/topic/tachos", "actualizar");
     }
 
     public Tacho crearTacho(String descripcion, Double peso, MultipartFile imagen) throws IOException {
@@ -28,10 +35,11 @@ public class TachoService {
         tacho.setDescripcion(descripcion);
         tacho.setPeso(peso);
         tacho.setImagen(imagePath);
-
         tacho.setActivo(true);
 
-        return tachoRepository.save(tacho);
+        Tacho guardado = tachoRepository.save(tacho);
+        notificarCambioTachos();
+        return guardado;
     }
 
     public List<Tacho> obtenerTodosLosTachos() {
@@ -61,14 +69,18 @@ public class TachoService {
                 tacho.setImagen(nuevaImagenPath);
             }
 
-            return tachoRepository.save(tacho);
+            Tacho actualizado = tachoRepository.save(tacho);
+            notificarCambioTachos();
+            return actualizado;
         });
     }
 
     public Optional<Tacho> desactivarTacho(Long id) {
         return tachoRepository.findById(id).map(tacho -> {
             tacho.setActivo(false);
-            return tachoRepository.save(tacho);
+            Tacho desactivado = tachoRepository.save(tacho);
+            notificarCambioTachos();
+            return desactivado;
         });
     }
 

@@ -4,6 +4,8 @@ import com.ignacio.backendmereles.Coladas.ColadaPesaje;
 import com.ignacio.backendmereles.Coladas.ColadaRemito;
 import com.ignacio.backendmereles.Remito.Remito;
 import com.ignacio.backendmereles.Remito.RemitoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,9 +18,16 @@ public class PesajeService {
     private final PesajeRepository pesajeRepository;
     private final RemitoRepository remitoRepository;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     public PesajeService(PesajeRepository pesajeRepository, RemitoRepository remitoRepository) {
         this.pesajeRepository = pesajeRepository;
         this.remitoRepository = remitoRepository;
+    }
+
+    private void notificarCambioPesajes() {
+        messagingTemplate.convertAndSend("/topic/pesajes", "actualizar");
     }
 
     public List<Pesaje> obtenerNoPesados() {
@@ -36,14 +45,18 @@ public class PesajeService {
     public Optional<Pesaje> pesarRemito(Long id) {
         return pesajeRepository.findById(id).map(pesaje -> {
             pesaje.setPesado(true);
-            return pesajeRepository.save(pesaje);
+            Pesaje actualizado = pesajeRepository.save(pesaje);
+            notificarCambioPesajes();
+            return actualizado;
         });
     }
 
     public Optional<Pesaje> egresarRemito(Long id) {
         return pesajeRepository.findById(id).map(pesaje -> {
             pesaje.setEgresado(true);
-            return pesajeRepository.save(pesaje);
+            Pesaje actualizado = pesajeRepository.save(pesaje);
+            notificarCambioPesajes();
+            return actualizado;
         });
     }
 
@@ -56,13 +69,20 @@ public class PesajeService {
         pesaje.setPesoTotal(remito.getPesoTotal());
         pesaje.setTachoId(remito.getTachoId());
         pesaje.setTachoPeso(remito.getTachoPeso());
+
         List<ColadaRemito> remitoColadas = remito.getColadas();
         List<ColadaPesaje> pesajeColadas = new ArrayList<>();
 
         for (ColadaRemito colada : remitoColadas) {
-            pesajeColadas.add(new ColadaPesaje(colada.getColada(), colada.getPeso(),
-                    colada.getModeloId(), colada.getFecha(), colada.getImagen(), colada.getCantidad(),
-                    colada.getPesoTotal()));
+            pesajeColadas.add(new ColadaPesaje(
+                    colada.getColada(),
+                    colada.getPeso(),
+                    colada.getModeloId(),
+                    colada.getFecha(),
+                    colada.getImagen(),
+                    colada.getCantidad(),
+                    colada.getPesoTotal()
+            ));
         }
 
         pesaje.setColadas(pesajeColadas);
@@ -76,7 +96,10 @@ public class PesajeService {
         pesaje.setPesado(false);
         pesaje.setEgresado(false);
 
-        return pesajeRepository.save(pesaje);
+        Pesaje guardado = pesajeRepository.save(pesaje);
+        notificarCambioPesajes();
+        return guardado;
     }
 }
+
 

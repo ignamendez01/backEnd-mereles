@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/usuarios/login").permitAll()
                         .requestMatchers("/ping").permitAll()
+                        .requestMatchers("/ws/**").permitAll()
                         .requestMatchers("/usuarios/register").hasRole("ADMIN")
                         .requestMatchers("/modelos/**","/tachos/**","/remitos/**", "/pesajes/crearDesdeRemito/*").hasAnyRole("ADMIN", "FABRICA_A")
                         .requestMatchers("/pesajes/**", "/remitos/*/pesar", "/remitos/*/egresar").hasAnyRole("ADMIN", "FABRICA_B")
@@ -76,7 +77,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
                 "http://localhost:3000",
-                "https://ignamendez01.github.io" // 👈 agregar este dominio
+                "https://ignamendez01.github.io"
         ));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
