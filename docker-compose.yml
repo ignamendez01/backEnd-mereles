@@ -14,13 +14,6 @@ services:
       - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
       - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
       - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
-
-#    container_name: app-mereles
-#    build: .
-#    image: app-mereles:latest
-#    ports:
-#      - "8080:8080"
-#    environment:
 #      - SPRING_DATASOURCE_URL=jdbc:postgresql://mereles_db:5432/ignaDB
 #      - SPRING_DATASOURCE_USERNAME=igna01
 #      - SPRING_DATASOURCE_PASSWORD=igna2001
